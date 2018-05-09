@@ -11,12 +11,20 @@ plugins {
     id 'java-library'
 }
 
+apply plugin: 'java'
+
 dependencies {
     // This dependency is exported to consumers, that is to say found on their compile classpath.
     // api 'org.apache.commons:commons-math3:3.6.1'
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation 'com.google.guava:guava:23.0'
+
+    compile (
+        'com.amazonaws:aws-lambda-java-core:1.1.0',
+        'com.amazonaws:aws-lambda-java-events:1.1.0',
+        'com.amazonaws:aws-java-sdk-bom:1.11.325'
+    )
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
@@ -29,3 +37,13 @@ repositories {
     jcenter()
     mavenCentral()
 }
+
+task buildZip(type: Zip) {
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.runtime
+    }
+}
+
+build.dependsOn buildZip
