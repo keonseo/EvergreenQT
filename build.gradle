@@ -11,6 +11,9 @@ plugins {
     id 'java-library'
 }
 
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
 dependencies {
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation 'com.google.guava:guava:23.0'
@@ -19,10 +22,16 @@ dependencies {
     compile (
         'com.amazonaws:aws-lambda-java-core:1.1.0',
         'com.amazonaws:aws-lambda-java-events:1.1.0',
+        'com.amazonaws:aws-java-sdk-polly:1.11.385',
+        'org.jsoup:jsoup:1.11.3',
+        'org.apache.commons:commons-lang3:3.1',
     )
 
     // Use JUnit test framework
-    testImplementation 'junit:junit:4.12'
+    testImplementation (
+        'junit:junit:4.12',
+        'org.mockito:mockito-core:2.+',
+    )
 }
 
 // In this section you declare where to find the dependencies of your project
