@@ -25,4 +25,9 @@ public class EvergreenQTPassageResult {
     }
 
     private String s3PathToVoice;
+
+    @Override
+    public String toString() {
+        return "Passages: " + passages + " S3PathToVoice: " + s3PathToVoice;
+    }
 }

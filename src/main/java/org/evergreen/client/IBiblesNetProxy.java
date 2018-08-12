@@ -1,33 +1,38 @@
 package org.evergreen.client;
 
-import com.google.common.collect.ImmutableList;
-import org.evergreen.verse.Passages;
+import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import org.evergreen.verse.VerseFindRequest;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class IBiblesNetProxy {
+    private LambdaLogger logger;
 
     private final static String IBIBLESNET_URI_PREFIX = "http://ibibles.net/quote.php?kor-";
 
-    public IBiblesNetProxy() { }
+    public IBiblesNetProxy(final LambdaLogger lambdaLogger) {
+        this.logger = lambdaLogger;
+    }
 
-    public Passages getPassages(final VerseFindRequest request) {
+    public List<String> getText(final VerseFindRequest request) {
         try {
+            final String msg = "VerseFindRequest of " + request;
+            logger.log(msg);
+
             //1. Construct and retrieve raw HTML that contains scripture
-            final Document document = Jsoup.connect(constructURI(request)).get();
+            final String URI = constructURI(request);
+            final Document document = Jsoup.connect(URI).get();
+            logger.log("Reaching out to " + URI);
 
             //2. Parse out the raw text from HTML
             final List<String> rawTextStringList = parseDocument(document);
+            logger.log("Retrieved " + rawTextStringList);
 
-            return new Passages.PassagesBuilder()
-                .withStartVerseReference(request.getStartVerseReference())
-                .withEndVerseReference(request.getEndVerseReference())
-                .withTexts(rawTextStringList)
-                .build();
+            return rawTextStringList;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -37,7 +42,7 @@ public class IBiblesNetProxy {
         return document.body().textNodes().stream()
                 .map(n -> n.toString().trim())
                 .filter(s -> !s.isEmpty())
-                .collect(ImmutableList.toImmutableList());
+                .collect(Collectors.toList());
     }
 
     public String constructURI(final VerseFindRequest request) {

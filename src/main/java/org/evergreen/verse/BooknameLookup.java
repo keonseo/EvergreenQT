@@ -1,10 +1,9 @@
 package org.evergreen.verse;
 
-import com.google.common.collect.ImmutableMap;
-
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public final class BooknameLookup {
 
@@ -12,7 +11,7 @@ public final class BooknameLookup {
 
     static {
         booknameMap = Arrays.stream(VerseReference.Bookname.values())
-            .collect(ImmutableMap.toImmutableMap(VerseReference.Bookname::getKoreanBookName, Function.identity()));
+            .collect(Collectors.toMap(VerseReference.Bookname::getKoreanBookName, Function.identity()));
     }
 
     private BooknameLookup() { }

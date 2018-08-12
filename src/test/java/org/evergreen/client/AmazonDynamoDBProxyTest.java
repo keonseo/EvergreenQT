@@ -29,9 +29,17 @@ public class AmazonDynamoDBProxyTest {
 
     /*
     @Test
-    public void retrieveItem() {
+    public void putItemStringAttribute() {
         final AmazonDynamoDBProxy proxy = new AmazonDynamoDBProxy(Regions.US_EAST_1);
         proxy.updateItemStringAttribute("EvergreenQT", new PrimaryKey("Date", "2018-8-11"),
                 "Test", "TestValue");
+    }*/
+
+    /*
+    @Test
+    public void putItemStringListAttribute() {
+        final AmazonDynamoDBProxy proxy = new AmazonDynamoDBProxy(Regions.US_EAST_1);
+        proxy.updateItemStringList("EvergreenQT", new PrimaryKey("Date", "2018-8-11"),
+                "Test", Arrays.asList("TestValue", "Second Value", "Third value"));
     }*/
 }

@@ -4,6 +4,7 @@ import org.evergreen.client.IBiblesNetProxy;
 import org.evergreen.verse.Passages;
 import org.evergreen.verse.VerseFindRequest;
 
+import java.util.List;
 import java.util.Optional;
 
 public class EvergreenQTPassageHandler {
@@ -21,9 +22,24 @@ public class EvergreenQTPassageHandler {
     }
 
     public EvergreenQTPassageResult handle() {
-
         final VerseFindRequest verseFindRequest = evergreenQTTableHandler.generateVerseFindRequestFromDB();
-        final Passages passages = iBiblesNetProxy.getPassages(verseFindRequest);
+        final Passages passages;
+
+        final Optional<List<String>> textFromDBOptional = evergreenQTTableHandler.getTextFromDB();
+
+        if (textFromDBOptional.isPresent()) {
+            passages = new Passages.PassagesBuilder()
+                    .withVerseFindRequest(verseFindRequest)
+                    .withTexts(textFromDBOptional.get())
+                    .build();
+        } else {
+            final List<String> textFromNet = iBiblesNetProxy.getText(verseFindRequest);
+            evergreenQTTableHandler.putText(textFromNet);
+            passages = new Passages.PassagesBuilder()
+                    .withVerseFindRequest(verseFindRequest)
+                    .withTexts(textFromNet)
+                    .build();
+        }
 
         // Check if we already processed this request
         final Optional<String> s3ObjectKeyOptional = evergreenQTTableHandler.getS3ObjectKey();

@@ -1,18 +1,26 @@
 package org.evergreen.client;
 
+import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import org.evergreen.verse.VerseFindRequest;
 import org.evergreen.verse.VerseReference;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
+@RunWith(MockitoJUnitRunner.class)
 public class IBiblesNetProxyTest {
+
+    @Mock
+    LambdaLogger lambdaLoggerMock;
 
     private IBiblesNetProxy iBiblesNetProxy;
 
@@ -50,7 +58,7 @@ public class IBiblesNetProxyTest {
 
     @Before
     public void setup() {
-        iBiblesNetProxy = new IBiblesNetProxy();
+        iBiblesNetProxy = new IBiblesNetProxy(lambdaLoggerMock);
     }
 
     @Test

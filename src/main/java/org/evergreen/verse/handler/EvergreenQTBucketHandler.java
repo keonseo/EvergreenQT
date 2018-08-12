@@ -17,7 +17,7 @@ public class EvergreenQTBucketHandler {
     }
 
     public String generateKey() {
-        return String.format("%s-%s-%s", dateTime.getYear(), dateTime.getMonthOfYear(), dateTime.getDayOfMonth());
+        return String.format("%s-%s-%s.mp3", dateTime.getYear(), dateTime.getMonthOfYear(), dateTime.getDayOfMonth());
     }
 
     public String putObject(final File file) {

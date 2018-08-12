@@ -41,6 +41,6 @@ public class GetRegionLambdaFunction implements RequestHandler<DateRequest, Ever
         dynamoDB = new AmazonDynamoDBProxy(region);
         s3Proxy = new AmazonS3Proxy(region);
         pollyProxy = new AmazonPollyProxy(region);
-        iBiblesNetProxy = new IBiblesNetProxy();
+        iBiblesNetProxy = new IBiblesNetProxy(logger);
     }
 }

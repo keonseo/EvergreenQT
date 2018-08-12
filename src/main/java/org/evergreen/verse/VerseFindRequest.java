@@ -50,4 +50,9 @@ public class VerseFindRequest {
             return new VerseFindRequest(startVerseReference, endVerseReferenceOptional);
         }
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s - %s", startVerseReference, endVerseReference);
+    }
 }

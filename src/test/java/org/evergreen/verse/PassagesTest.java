@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 
 public class PassagesTest {
 
-    final List<String> rawTextList = ImmutableList.of("Hello", "Hi", "Testing", "Test");
+    final List<String> rawTextList = ImmutableList.of("Hello", "Hi", "Testing", "Test", "Fifth Entry");
 
     final VerseReference verseReference1 = new VerseReference.VerseReferenceBuilder()
             .withBookname(VerseReference.Bookname.CHRONICLES_FIRST)
@@ -32,7 +32,7 @@ public class PassagesTest {
                 .withEndVerseReference(Optional.of(verseReference2))
                 .build();
 
-        assertEquals("Hello Hi Testing Test", passages.getTexts());
+        assertEquals("Hello. Hi. Testing. Test. Fifth Entry", passages.getTexts());
     }
 
     @Test(expected = IllegalArgumentException.class)

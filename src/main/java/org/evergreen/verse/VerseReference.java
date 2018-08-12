@@ -142,4 +142,9 @@ public class VerseReference {
             return new VerseReference(bookname, chapter, verse);
         }
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s%s:%s", bookname.getKoreanBookName(), chapter, verse);
+    }
 }
