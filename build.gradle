@@ -20,8 +20,14 @@ dependencies {
 
     //https://docs.aws.amazon.com/lambda/latest/dg/create-deployment-pkg-zip-java.html
     compile (
+        // Alexa https://alexa-skills-kit-sdk-for-java.readthedocs.io/en/latest/Setting-Up-The-ASK-SDK.html
+        'com.amazon.alexa:ask-sdk:2.3.1',
+
+        // Lambda general
         'com.amazonaws:aws-lambda-java-core:1.1.0',
         'com.amazonaws:aws-lambda-java-events:1.1.0',
+
+        // Custom
         'com.amazonaws:aws-java-sdk-polly:1.11.385',
         'org.jsoup:jsoup:1.11.3',
         'org.apache.commons:commons-lang3:3.1',

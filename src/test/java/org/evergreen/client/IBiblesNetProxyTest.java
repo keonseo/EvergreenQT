@@ -58,7 +58,7 @@ public class IBiblesNetProxyTest {
 
     @Before
     public void setup() {
-        iBiblesNetProxy = new IBiblesNetProxy(lambdaLoggerMock);
+        iBiblesNetProxy = new IBiblesNetProxy();
     }
 
     @Test

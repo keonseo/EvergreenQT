@@ -15,10 +15,10 @@ import org.evergreen.verse.handler.*;
 public class GetRegionLambdaFunction implements RequestHandler<DateRequest, EvergreenQTPassageResult> {
 
     private LambdaLogger logger;
-    private AmazonDynamoDBProxy dynamoDB;
-    private AmazonS3Proxy s3Proxy;
-    private AmazonPollyProxy pollyProxy;
-    private IBiblesNetProxy iBiblesNetProxy;
+    private static AmazonDynamoDBProxy dynamoDB;
+    private static AmazonS3Proxy s3Proxy;
+    private static AmazonPollyProxy pollyProxy;
+    private static IBiblesNetProxy iBiblesNetProxy;
 
     @Override
     public EvergreenQTPassageResult handleRequest(final DateRequest request, final Context context) {
@@ -36,11 +36,22 @@ public class GetRegionLambdaFunction implements RequestHandler<DateRequest, Ever
         return evergreenQTPassageHandler.handle();
     }
 
-    private void initiateSingletons() {
+    public static EvergreenQTPassageResult handleRequest(final DateRequest request){
+        initiateSingletons();
+
+        final EvergreenQTTableHandler evergreenQTTableHandler = new EvergreenQTTableHandler(dynamoDB, request.toDateTime());
+        final EvergreenQTBucketHandler evergreenQTBucketHandler = new EvergreenQTBucketHandler(s3Proxy, request.toDateTime());
+        final EvergreenQTTTSHandler evergreenQTTTSHandler = new EvergreenQTTTSHandler(pollyProxy, evergreenQTBucketHandler);
+        final EvergreenQTPassageHandler evergreenQTPassageHandler = new EvergreenQTPassageHandler(evergreenQTTableHandler, evergreenQTTTSHandler, iBiblesNetProxy);
+
+        return evergreenQTPassageHandler.handle();
+    }
+
+    private static void initiateSingletons() {
         final Regions region = LambaEnvironmentVariables.getRegion();
         dynamoDB = new AmazonDynamoDBProxy(region);
         s3Proxy = new AmazonS3Proxy(region);
         pollyProxy = new AmazonPollyProxy(region);
-        iBiblesNetProxy = new IBiblesNetProxy(logger);
+        iBiblesNetProxy = new IBiblesNetProxy();
     }
 }

@@ -61,7 +61,7 @@ public class Passages {
             final List<AbstractMap.SimpleEntry<VerseReference, String>> entries = new LinkedList<>();
 
             if (endVerseReference.isPresent()) {
-                Validate.isTrue(rawTexts.size() == endVerseReference.get().getVerse() - startVerseReference.getVerse() + 1);
+                Validate.isTrue(rawTexts.size() == endVerseReference.get().getVerse() - startVerseReference.getVerse() + 1, "RawText size" + rawTexts.size());
                 Validate.isTrue(startVerseReference.getBookname() == endVerseReference.get().getBookname(), "Search across multiple books is not supported");
                 Validate.isTrue(startVerseReference.getChapter() == endVerseReference.get().getChapter(), "Search across multiple chapters is not supported");
                 Validate.isTrue(startVerseReference.getVerse() <= endVerseReference.get().getVerse(), "End verse must be greater than start verse");

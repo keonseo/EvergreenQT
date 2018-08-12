@@ -36,13 +36,13 @@ public class EvergreenQTPassageHandlerTest {
         final DateRequest request = new DateRequest();
         request.setYear("2018");
         request.setMonth("8");
-        request.setDay("11");
+        request.setDay("12");
 
         final Regions region = Regions.US_EAST_1;
         dynamoDB = new AmazonDynamoDBProxy(region);
         s3Proxy = new AmazonS3Proxy(region);
         pollyProxy = new AmazonPollyProxy(region);
-        iBiblesNetProxy = new IBiblesNetProxy(lambdaLogger);
+        iBiblesNetProxy = new IBiblesNetProxy();
 
         evergreenQTTableHandler = new EvergreenQTTableHandler(dynamoDB, request.toDateTime());
         evergreenQTBucketHandler = new EvergreenQTBucketHandler(s3Proxy, request.toDateTime());
@@ -55,8 +55,9 @@ public class EvergreenQTPassageHandlerTest {
         assertEquals(1,1);
     }
 
+    /*
     @Test
     public void test() {
         System.out.println(evergreenQTPassageHandler.handle());
-    }
+    }*/
 }
