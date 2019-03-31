@@ -8,7 +8,7 @@ import org.evergreen.client.AmazonDynamoDBProxy;
 import org.evergreen.client.AmazonPollyProxy;
 import org.evergreen.client.AmazonS3Proxy;
 import org.evergreen.client.IBiblesNetProxy;
-import org.evergreen.lambda.common.LambaEnvironmentVariables;
+import org.evergreen.lambda.common.LambdaEnvironmentVariables;
 import org.evergreen.verse.DateRequest;
 import org.evergreen.verse.handler.*;
 
@@ -48,7 +48,7 @@ public class GetRegionLambdaFunction implements RequestHandler<DateRequest, Ever
     }
 
     private static void initiateSingletons() {
-        final Regions region = LambaEnvironmentVariables.getRegion();
+        final Regions region = LambdaEnvironmentVariables.getRegion();
         dynamoDB = new AmazonDynamoDBProxy(region);
         s3Proxy = new AmazonS3Proxy(region);
         pollyProxy = new AmazonPollyProxy(region);
